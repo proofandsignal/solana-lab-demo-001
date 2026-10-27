@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proof & Signal | Solana Evidence Lab · DEMO-001</title>
+<style>
+:root{color-scheme:dark;--bg:#08101e;--surface:#101f32;--surface2:#14263c;--edge:#29435b;--text:#edf5ff;--dim:#a9bdd3;--ok:#5bdfb4;--bad:#ff8e98;--warn:#f4c67b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% -25%,#174069 0%,transparent 42%),var(--bg);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text)}header,main,footer{max-width:1140px;margin:auto;padding:24px}header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-top:35px}h1{margin:4px 0 8px;font-size:clamp(24px,4vw,39px);letter-spacing:-.035em}h2{font-size:18px;margin:0 0 13px}h3{margin:0;font-size:15px}.eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:800;color:#79c5f1}.subtitle,.muted{color:var(--dim)}.subtitle{margin:0;max-width:660px}.actions{display:flex;gap:10px;flex-wrap:wrap}button,.btn{appearance:none;border:1px solid #477da8;background:#153755;color:white;padding:10px 13px;border-radius:9px;font:inherit;cursor:pointer;font-weight:650}button:hover,.btn:hover{background:#245579}button:focus-visible,.btn:focus-visible{outline:3px solid #8bd1ff}input[type=file]{max-width:280px;font:inherit}.btn.primary{background:#1777a7}.notice{padding:13px 16px;border:1px solid #966a37;background:#34291e;color:#ffe0a8;border-radius:10px;margin:0 0 17px}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.panel{min-width:0;background:linear-gradient(135deg,var(--surface),#0f1a2a);border:1px solid var(--edge);border-radius:14px;padding:19px;margin-bottom:14px}.full{grid-column:1/-1}.meta{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim)}.big{font-size:28px;font-weight:800;letter-spacing:-.025em;overflow-wrap:anywhere}.table{width:100%;border-collapse:collapse}.table td,.table th{text-align:left;border-bottom:1px solid #263a50;padding:10px 5px;vertical-align:top}.table th{color:var(--dim);font-size:12px}.table td:last-child{text-align:right;overflow-wrap:anywhere;max-width:500px}.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}.mono{font:12px/1.5 ui-monospace,Consolas,monospace;overflow-wrap:anywhere}summary{cursor:pointer;font-weight:650}pre{white-space:pre-wrap;word-break:break-word;background:#071323;border-radius:9px;padding:12px;color:#d3e5fc;max-height:260px;overflow:auto}.bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.tag{display:inline-block;border:1px solid #6d7182;border-radius:99px;padding:4px 10px;color:#d7dfe9;font-size:11px;letter-spacing:.06em}.small{font-size:13px}footer{color:var(--dim);font-size:12px;padding-bottom:40px}@media(max-width:740px){header{display:block}.cards{grid-template-columns:1fr}.actions{margin-top:20px}}@media print{body{background:white;color:black}.panel{break-inside:avoid;background:white;color:black;border-color:#ccc}button,input,.actions{display:none!important}.notice{color:black;background:white;border-color:#bbb}.muted,.meta,.subtitle{color:#444}}
+</style></head><body>
+<header><div><div class="eyebrow">Proof & Signal / Solana Lab</div><h1>Evidence Intelligence</h1><p class="subtitle">DEMO-001 · Reproducible Solana token configuration evidence. Browser-only, read-only; no wallet or transaction required.</p></div><div class="actions"><button id="runDemo" class="primary">Run bundled test</button><button id="tamper">Run tamper test</button><button id="print">Print report</button></div></header>
+<main><div class="notice"><strong>PUBLIC TEST DEMO — NOT AN INDEPENDENT AUDIT.</strong> Archived Mainnet RPC response has not been authenticated by an independent provider. The built-in 82-byte fixture is reconstructed from previously supplied case fields; it matches the reported SHA-256 but is not a second RPC observation.</div>
+<section class="panel"><div class="bar"><div><h2>Test real evidence files</h2><p class="muted small">Select <strong>manifest.json</strong> and any original captured evidence files together. Browser SHA-256 checks use actual uploaded bytes. Missing files are PENDING, not PASS.</p></div><input type="file" id="files" multiple aria-label="Select manifest and evidence files"></div><p id="mode" class="small warn">Starting built-in test…</p></section>
+<div class="cards">
+<section class="panel"><div class="meta">Verified file hashes</div><div id="hashScore" class="big">—</div><p class="muted small">Only checked files count.</p></section>
+<section class="panel"><div class="meta">SPL Mint Decoder</div><div id="decodeStatus" class="big">—</div><p class="muted small">82-byte classic SPL mint layout.</p></section>
+<section class="panel"><div class="meta">Independent RPC</div><div class="big warn">PENDING</div><p class="muted small">Historical source authenticity unresolved.</p></section>
+<section class="panel full"><h2>Evidence checks</h2><table class="table"><thead><tr><th>Test</th><th>Result</th></tr></thead><tbody id="checks"></tbody></table></section>
+<section class="panel full"><h2>Case overview</h2><table class="table"><tbody id="overview"></tbody></table></section>
+<section class="panel full"><h2>Decoded mint configuration</h2><table class="table"><tbody id="decoded"></tbody></table><p class="muted small">Authority presence does not imply misuse. Supply represents units observed in the archived snapshot, not current balances or reserves.</p></section>
+<section class="panel full"><h2>Evidence provenance & limitations</h2><p class="muted small" id="source"></p><details><summary>Manifest / expected hashes</summary><pre id="manifestView"></pre></details><p class="muted small">Local hash checks validate consistency with an editable manifest; they do not establish external provenance, historical account truth, reserve backing, legal ownership, or asset safety.</p></section>
+<section class="panel full"><div class="bar"><div><h2>Evidence Report</h2><p class="muted small">Results are generated from the checks above, not assumed PASS flags.</p></div><button id="download">Download .txt report</button></div><pre id="report"></pre></section>
+</div></main><footer>© Proof & Signal · Source-visible proprietary demonstration, All Rights Reserved. No commercial or production usage license is granted. No API calls, wallets, fees, or on-chain writes.</footer>
+<script>
+'use strict';
+const $=s=>document.getElementById(s);
+const alphabet='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+const M={
+case:'DEMO-001',captured_at_utc:'2026-10-23T07:50:27.270060+00:00',rpc_endpoint:'https://api.mainnet-beta.solana.com',
+mint:'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',commitment:'finalized',
+genesis_hash:'5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d',context_slot:460364163,
+decoded:{mint_authority:'BJE5MMbqXjVwjAF7oxwPYXnTXDyspzZyt4vwenNw5ruG',freeze_authority:'7dGbd2QZcCKcTndnHcTL8q7SMVXAkp688NTQYwrRCrar',raw_supply:'7874786838186473',decimals:6,initialized:true,owner:'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',data_length:82},
+sha256_files:{
+'account.data.bin':'bdfc0e17586e9edd8ed1cd285a531555e69851b303a8408123569245fcab9953',
+'account.request.json':'b8b9ac6c176db14a46c09b840330304db2cf35233af1bb2cbcfc193713d13b6c',
+'account.response.json':'2167f2885ec65538436b2c5ebd41a4eb43a3163af3a228a7876a1392be07609f',
+'genesis.request.json':'e0a1431eb8a95c275357dc18ec2b72ca2e62435dac307374bc80125237fd136b',
+'genesis.response.json':'878a27d8ec54dbb5c203a9123c383857adc1fa7e32284022cbdf7dbc3bd6200d'},
+limitations:['One RPC provider only','No authenticated historical account proof','No independent review','No financial, reserve, legal or safety assurance']
+};
+const FIX='0100000098fe86e88d9be2ea8bc1cca4878b2988c240f52b8424bfb40ed1a2ddcb5e199be9092cb013fa1b000601010000006270aa8a59c59405b45286c86772e6cd126e9b8a5d3a38536d37f7b414e8b667';
+let reportText='';
+function row(root,a,b){let tr=document.createElement('tr');for(let v of [a,b]){let td=document.createElement('td');td.textContent=String(v);tr.appendChild(td)}root.appendChild(tr)}
+function reset(root){root.replaceChildren()}
+function status(label,value){row($('checks'),label,value)}
+function b58(bytes){let v=0n;for(const x of bytes)v=(v<<8n)+BigInt(x);let s='';while(v){s=alphabet[Number(v%58n)]+s;v/=58n}for(const x of bytes){if(x!==0)break;s='1'+s}return s}
+function u64(v,o){let n=0n;for(let i=7;i>=0;i--)n=(n<<8n)+BigInt(v[o+i]);return n}
+function u32(v,o){return new DataView(v.buffer,v.byteOffset,v.byteLength).getUint32(o,true)}
+function decode(v){if(v.length!==82)throw Error('Expected exactly 82 bytes (classic SPL mint)');let ma=u32(v,0),fa=u32(v,46);if(ma>1||fa>1)throw Error('Invalid authority option');if(v[45]>1)throw Error('Invalid initialized flag');return {mint_authority:ma?b58(v.slice(4,36)):null,freeze_authority:fa?b58(v.slice(50,82)):null,raw_supply:u64(v,36).toString(),decimals:v[44],initialized:v[45]===1,data_length:v.length}}
+async function sha(buffer){const dig=await crypto.subtle.digest('SHA-256',buffer);return [...new Uint8Array(dig)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function hexBytes(s){if(!/^(?:[0-9a-f]{2})+$/i.test(s))throw Error('Bad hex');return Uint8Array.from(s.match(/../g),x=>parseInt(x,16))}
+function isHash(s){return typeof s==='string'&&/^[0-9a-f]{64}$/i.test(s)}
+function validManifest(m){if(!m||m.case!=='DEMO-001'||!m.decoded||!m.sha256_files||typeof m.sha256_files!=='object'||!isHash(m.sha256_files['account.data.bin']))throw Error('Invalid DEMO-001 manifest');return m}
+async function verify(m,inputs,mode){reset($('checks'));reset($('overview'));reset($('decoded'));$('mode').textContent=mode;
+let passed=0,failed=0,pending=0,entries=Object.entries(m.sha256_files);for(const [name,expected] of entries){if(!isHash(expected)){failed++;status(name,'FAIL — bad expected digest');continue}const file=inputs.get(name);if(!file){pending++;status(name,'PENDING — file not provided');continue}
+try{const buffer=file instanceof Uint8Array?file:(new Uint8Array(await file.arrayBuffer()));const actual=await sha(buffer);if(actual.toLowerCase()===expected.toLowerCase()){passed++;status(name,'PASS · '+actual.slice(0,14)+'…')}else{failed++;status(name,'FAIL · SHA-256 differs')}}catch(e){failed++;status(name,'FAIL · '+e.message)}}
+$('hashScore').textContent=passed+'/'+entries.length+' PASS';$('hashScore').className='big '+(failed?'bad':passed?'ok':'warn');
+let decoded=null,decodeResult='PENDING',mint=inputs.get('account.data.bin');if(mint){try{const bytes=mint instanceof Uint8Array?mint:new Uint8Array(await mint.arrayBuffer());decoded=decode(bytes);const differences=Object.entries(decoded).filter(([k,v])=>String(v)!==String(m.decoded[k]));decodeResult=differences.length?'FAIL — '+differences.map(x=>x[0]).join(', '):'PASS';for(const [k,v] of Object.entries(decoded))row($('decoded'),k,v===null?'None':v);if(differences.length)failed++}catch(e){decodeResult='FAIL — '+e.message;failed++}}else pending++;
+$('decodeStatus').textContent=decodeResult.startsWith('PASS')?'PASS':decodeResult.startsWith('FAIL')?'FAIL':'PENDING';
+$('decodeStatus').className='big '+(decodeResult.startsWith('PASS')?'ok':decodeResult.startsWith('FAIL')?'bad':'warn');
+status('Mint decoder vs manifest',decodeResult);status('Independent historical RPC verification','PENDING — not performed');status('Independent security review','PENDING — not performed');
+for(const [a,b] of [['Case',m.case],['Mint',m.mint],['Network genesis hash',m.genesis_hash],['Captured at (UTC)',m.captured_at_utc],['Reported slot',m.context_slot],['RPC commitment',m.commitment],['Observed program owner (RPC-reported)',m.decoded.owner]])row($('overview'),a,b??'Not recorded');
+$('source').textContent='Reported RPC endpoint: '+(m.rpc_endpoint||'not recorded')+' · '+mode;
+$('manifestView').textContent=JSON.stringify(m,null,2);
+reportText=['Proof & Signal — DEMO-001 EVIDENCE REPORT','TEST DEMO / NOT INDEPENDENTLY VERIFIED','Mode: '+mode,'Reported mint: '+m.mint,'Context slot: '+m.context_slot,'Captured: '+m.captured_at_utc,'Hash checks: '+passed+' PASS / '+failed+' FAIL or decoding errors / '+pending+' missing hashes','Mint decoder: '+decodeResult, ...Object.entries(decoded||{}).map(([k,v])=>k+': '+v),'Independent historical RPC: PENDING','Independent review: PENDING','Limitations: locally editable manifest; no verified source authentication; no reserves, legal or safety assurance.','Source-visible proprietary test only.'].join('\n');
+$('report').textContent=reportText}
+$('runDemo').onclick=async()=>{try{await verify(M,new Map([['account.data.bin',hexBytes(FIX)]]),'Built-in reconstructed 82-byte fixture — SHA matches reported case; four source JSON files not supplied')}catch(e){$('mode').textContent='ERROR: '+e.message}};
+$('tamper').onclick=async()=>{const b=hexBytes(FIX);b[40]^=1;await verify(M,new Map([['account.data.bin',b]]),'Intentional tamper test — expected HASH FAIL and decoder mismatch')};
+$('files').onchange=async e=>{const map=new Map([...e.target.files].map(f=>[f.name,f]));try{let m=M;if(map.has('manifest.json'))m=validManifest(JSON.parse(await map.get('manifest.json').text()));if(map.size===1&&map.has('manifest.json')){await verify(m,new Map(),'Imported manifest only — actual file hashes PENDING');return}await verify(m,map,'Uploaded local evidence files — checked in your browser; nothing sent to a server')}catch(e){$('mode').textContent='IMPORT ERROR: '+e.message}};
+$('print').onclick=()=>window.print();
+$('download').onclick=()=>{const blob=new Blob([reportText+'\n'],{type:'text/plain;charset=utf-8'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='DEMO-001-evidence-report.txt';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};
+$('runDemo').click();
+</script></body></html>
